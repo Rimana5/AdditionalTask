@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Визитка</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        .rates {
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .card img {
+            width: 150px;
+            height: auto;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="rates" id="rates">
+    Загрузка курсов валют...
+</div>
+
+<div class="card">
+    <img src="picture.jpg" alt="Фото">
+    <div>
+        <h2>Хмельков Артём Сергеевич</h2>
+        <p>Архитектор баз данных. Специализируюсь на postgresql, bash, python. Люблю изучать книги по компьютерной безопасности, моделям доступов</p>
+    </div>
+</div>
+
+<script>
+    fetch("https://www.cbr-xml-daily.ru/daily_json.js")
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            var usd = data.Valute.USD.Value.toFixed(2);
+            var eur = data.Valute.EUR.Value.toFixed(2);
+            var cny = data.Valute.CNY.Value.toFixed(2);
+
+            document.getElementById("rates").innerText =
+                "USD: " + usd + " | EUR: " + eur + " | CNY: " + cny;
+        })
+        .catch(function() {
+            document.getElementById("rates").innerText =
+                "Не удалось загрузить курсы валют";
+        });
+</script>
+</body>
+</html>
